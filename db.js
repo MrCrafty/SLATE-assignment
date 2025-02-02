@@ -10,12 +10,12 @@ const pool = new Pool({
 
 // Function to get role ID by role name
 const getRoleId = async (roleName) => {
-    const role = await pool.query('SELECT id FROM roles WHERE name = $1', [roleName]);
+    const role = await pool.query(`SELECT id FROM roles WHERE name = ${roleName}`);
     return role.rows.length > 0 ? role.rows[0].id : null;
 };
 
 const getUserId = async (userName) => {
-    const user = await pool.query('SELECT id FROM users WHERE name = $1', [userName]);
+    const user = await pool.query(`SELECT id FROM users WHERE name = ${userName}`);
     return user.rows.length > 0 ? user.rows[0].id : null;
 }
 

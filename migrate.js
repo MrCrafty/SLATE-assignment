@@ -35,7 +35,7 @@ const createTables = async () => {
         //Create PasswordChangeRequests table if it doesn't exist
         await pool.query(`
             CREATE TABLE IF NOT EXISTS password_change_requests(
-                id SERIAL PRIMARY KEY,
+                token TEXT,
                 user_id INTEGER REFERENCES Users(id) NOT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
