@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { APIMessageResponse } = require('../ResponseModel');
+const { APIMessageResponse } = require('../utils/ResponseModel');
 
 const authenticateToken = (req, res, next) => {
     const token = req.header('Authorization');
@@ -24,7 +24,7 @@ const authorizeRole = (roles) => {
 };
 
 const checkLinkedStudent = (req, res, next) => {
-    if (req.user.linked_student !== req.query.id) {
+    if (req.user.role !== '2' && req.user.linked_student !== req.query.id) {
         return APIMessageResponse(res, 403, "Access Denied");
     }
     next();

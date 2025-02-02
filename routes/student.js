@@ -1,6 +1,6 @@
 const express = require('express');
-const { checkStudent, pool } = require('../db');
-const { APIMessageResponse, APIDataResponse } = require("../ResponseModel")
+const { checkStudent, pool } = require('../utils/db');
+const { APIMessageResponse, APIDataResponse } = require("../utils/ResponseModel")
 
 const router = express.Router();
 

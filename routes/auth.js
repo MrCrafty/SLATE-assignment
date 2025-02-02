@@ -1,8 +1,8 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { pool, getRoleId } = require('../db');
-const { APIDataResponse, APIMessageResponse } = require('../ResponseModel');
+const { pool, getRoleId } = require('../utils/db');
+const { APIDataResponse, APIMessageResponse } = require('../utils/ResponseModel');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
@@ -78,8 +78,9 @@ router.get("/forgot-password", async (req, res) => {
         return APIMessageResponse(res, 401, 'User not found');
     }
     const token = randomString(32);
-    await pool.query(`INSERT INTO password_change_requests (user_id, token) VALUES ('${user.rows[0].id}', '${token}')`);
-    const resetLink = `Token = ${token} and id = ${user.rows[0].id}`;
+    const id = user.rows[0].id;
+    await pool.query(`INSERT INTO password_change_requests (user_id, token) VALUES ('${id}', '${token}')`);
+    const resetLink = `Token = ${token} and id = ${id}`;
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -99,7 +100,7 @@ router.get("/forgot-password", async (req, res) => {
             return APIMessageResponse(res, 500, "Error sending email");
         }
     });
-    return APIMessageResponse(res, 200, "Please Check your email");
+    return APIDataResponse(res, 200, { token: token, id: id });
 });
 
 //Reset Password
