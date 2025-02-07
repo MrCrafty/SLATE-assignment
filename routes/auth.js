@@ -14,7 +14,7 @@ router.post('/register', async (req, res) => {
     //Null checks
     if (username == null || email == null || password == null || role == null) return APIMessageResponse(res, 400, 'All fields are required');
     //checking if the user exists
-    const user = await pool.query(`SELECT * FROM Users WHERE name = ${username}`);
+    const user = await pool.query(`SELECT * FROM Users WHERE name = '${username}'`);
     if (user.rowCount !== 0) {
         return APIMessageResponse(res, 401, 'User exists');
     }
@@ -56,7 +56,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     //Getting user from database
-    const user = await pool.query(`SELECT * FROM Users WHERE name = ${username}`);
+    const user = await pool.query(`SELECT * FROM Users WHERE name = '${username}'`);
 
     //Returning error if the user is not found
     if (user.rowCount === 0) {
